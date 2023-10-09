@@ -1,0 +1,33 @@
+Öncelikle dersimizinde adı olan VTYS ne demek ona bakalım ; 
+
+Veritabanı Yönetim Sistemi (VTYS-Database Management System); veritabanı tanımlamak, veritabanı oluşturmak, veritabanında işlem yapmak, veritabanının farklı kullanıcı yetkilerini belirlemek, veritabanının bakımını ve yedeklemesini yapmak için geliştirilmiş programlar bütünüdür. 
+
+Veritabanı, (database) herhangi bir konuda birbiriyle ilişkili olan ve amaca uygun olarak düzenlenmiş, mantıksal ve fiziksel olarak tanımlanmış veriler bütünüdür. 
+
+VERİ TABANI TARİHÇESİ  
+
+Veritabanı tarihçesi, veri yönetimi teknolojisinin zaman içindeki evrimini anlatan bir dizi dönemi içerir. Bu dönemlerde veritabanı yönetim sistemleri (VTYS) gelişti ve veri depolama, erişim ve yönetiminde önemli gelişmeler yaşandı. 1950'lerden günümüze kadar olan bu süreçte, ilişkisel veritabanları ve SQL gibi kavramlar ortaya çıktı ve veritabanı teknolojileri iş dünyasında hayati bir rol oynadı. Ayrıca, internetin yükselişi ve bulut tabanlı veritabanı hizmetleri gibi faktörler veritabanı yönetiminin geleceğini de şekillendirdi. 
+
+Veritabanında saklanan veriler durağan nitelikte değişmez veriler değildir. Ekleme, silme ya da güncelleme işlemleri ile veritabanındaki veriler değiştirilebilir 
+
+VERİTABANI TEMEL KAVRAMLARI 
+
+Veri (Data): Veri, ham gözlemler, işlenmemiş gerçekler veya izlenimlerdir. Harf, rakam veya sembollerle temsil edilirler ve tek başına anlamlı  değillerdir. Verilerin işlenmesi sonucu bilgiye dönüşürler. 
+
+Bilgi (Information): Bilgi, verinin işlenmiş ve anlamlı hale getirilmiş biçimidir. Veriler üzerinde çeşitli işlemler uygulanarak elde edilirler. 
+
+Veritabanı (Database): Veritabanı, bir kurumun veya organizasyonun ihtiyaç duyduğu verilerin düzenlenmiş, mantıksal ve fiziksel olarak saklandığı bir yapıdır.  
+
+Veritabanı Yönetim Sistemi (VTYS) (Database Management System - DBMS): VTYS, veritabanını tanımlamak, oluşturmak, veri işleme, güncelleme ve veritabanını koruma gibi işlemleri gerçekleştirmek için kullanılan yazılım veya uygulamalardır. VTYS, veritabanıyla etkileşimde bulunmayı kolaylaştırır. 
+
+Birkaç ez cümle ile bitireyim ; 
+
+Veri, işlenmemiş gerçekler veya izlenimlerdir. 
+
+ Bilgi ise işlenmiş veridir. 
+
+Veritabanı, birbiriyle ilişkili olan verilerden oluşan bir koleksiyondur. 
+
+VTYS, veritabanını yönetmek için kullanılan yazılımlardır. 
+
+Sıralı erişimde, istenilen veriye ulaşmak için tüm veriler sırayla okunur. Doğrudan erişimle, istenilen veriye doğrudan erişilebilir. 
