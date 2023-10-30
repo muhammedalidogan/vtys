@@ -1,0 +1,169 @@
+-1-
+CREATE TABLE UYELER(
+	UYE_NO INT IDENTITY(1,1),
+	UYE_ADI VARCHAR(20),
+	UYE_SOYADI VARCHAR(20),
+	CINSIYET VARCHAR(5),
+	TELEFON VARCHAR(15),
+	EPOSTA VARCHAR(30),
+	ADRES_NO INT,
+	PRIMARY KEY("UYE_NO")
+);
+
+ALTER TABLE UYELER
+ADD FOREIGN KEY (ADRES_NO) REFERENCES ADRESLER(ADRES_NO);
+
+CREATE TABLE KITAPLAR(
+	ISBN VARCHAR(20),
+	KITAP_ADI VARCHAR(20),
+	YAYIN_TARIHI VARCHAR(20),
+	S_SAYISI INT,
+	PRIMARY KEY ("ISBN")
+);
+
+CREATE TABLE YAZARLAR(
+	YAZAR_NO INT IDENTITY(1,1),
+	YAZAR_ADI VARCHAR(20),
+	YAZAR_SOYADI VARCHAR(20),
+	PRIMARY KEY ("YAZAR_NO")
+);
+
+CREATE TABLE ADRESLER(
+  ADRES_NO INT IDENTITY(1,1),
+  CADDE VARCHAR(30),
+  MAHALLE VARCHAR(30),
+  BINA_NO INT,
+  SEHIR VARCHAR(30),
+  POSTA_KODU INT,
+  ULKE VARCHAR(30),
+  PRIMARY KEY("ADRES_NO")
+  );
+
+ALTER TABLE UYELER ADD CONSTRAINT "ADRESLER_UYELER"
+FOREIGN KEY (ADRES_NO) REFERENCES ADRESLER(ADRES_NO);
+
+CREATE TABLE EMANET(
+  EMANET_NO INT IDENTITY(1,1),
+  ISBN BIGINT NOT NULL,
+  UYE_NO INT NOT NULL,
+  KUTUPHANE_NO INT NOT NULL,
+  EMANET_TARIHI DATETIME,
+  TESLIM_TARIHI DATETIME,
+  PRIMARY KEY("EMANET_NO")
+  );
+ALTER TABLE EMANET
+ADD FOREIGN KEY (ISBN) REFERENCES KITAPLAR(ISBN);
+ALTER TABLE EMANET 
+ADD FOREIGN KEY (KUTUPHANE_NO) REFERENCES KUTUPHANE(KUTUPHANE_NO);
+
+CREATE TABLE KATEGORILER(
+	KATEGORI_NO INT IDENTITY(1,1),
+	KATEGORI_ADI VARCHAR(20),
+	PRIMARY KEY ("KATEGORI_NO")
+);
+CREATE TABLE KUTUPHANE(
+	KUTUPHANE_NO INT IDENTITY(1,1),
+	KUTUPHANE_ADI VARCHAR(20),
+	ACIKLAMA VARCHAR(20),
+	ADRES_NO INT,
+	PRIMARY KEY ("KUTUPHANE_NO")
+);
+
+CREATE TABLE KITAP_KUTUPHANE(
+	KUTUPHANE_NO INT NOT NULL,
+	ISBN VARCHAR(20) NOT NULL,
+	MIKTAR INT,
+	CONSTRAINT "KITAP_KUTUPHANE_PK" PRIMARY KEY ("KUTUPHANE_NO", "ISBN"),
+	CONSTRAINT "KITAP_KUTUPHANE_FK" FOREIGN KEY ("KUTUPHANE_NO") REFERENCES KATEGORILER(KATEGORI_NO)
+
+);
+
+ALTER TABLE KITAP_KUTUPHANE ADD CONSTRAINT "KITAP_KUTUPHANE_KITAPLAR_FK" FOREIGN KEY ("ISBN") REFERENCES KITAPLAR(ISBN);
+
+CREATE TABLE KITAP_KATEGORI(
+	ISBN VARCHAR(20) NOT NULL,
+	KATEGORI_NO INT NOT NULL,
+	CONSTRAINT "KITAP_KATEGORI_PK" PRIMARY KEY ("KATEGORI_NO", "ISBN")
+);
+
+CREATE TABLE KITAP_YAZAR(
+	ISBN VARCHAR(20) NOT NULL,
+	YAZAR_NO INT NOT NULL,
+	CONSTRAINT "KITAP_YAZAR_PK" PRIMARY KEY ("YAZAR_NO", "ISBN")
+);
+DELETE FROM KITAP_YAZAR  
+WHERE ISBN='6573545354';
+-2-
+  INSERT INTO ADRESLER VALUES(1,'Papatya','Melikgazi','18','Kayseri',38030,'Türkiye');
+INSERT INTO KUTUPHANE VALUES(1,'7/24','yediyirmidört kütüphane',23);
+INSERT INTO EMANET VALUES(1,'5674325679',1,1,'Emine','Arslan',10-10-2023,12-12-2023,'yediyirmidört kütüphane');
+INSERT INTO KITAPLAR VALUES('5674325679','Nesne Yönelimli programlama',13-03-2007,334);
+INSERT INTO YAZARLAR VALUES(1,'Beyhan','Budak');
+INSERT INTO KATEGORILER VALUES(1,'Programlama');
+INSERT INTO KITAP_KUTUPHANE VALUES(1,'43254643',133);
+-3-
+  SELECT * FROM UYELER
+ORDER BY UYE_NO ASC;
+-4-
+  SELECT * FROM EMANET
+WHERE EMANET_TARIHI > '2023-01-01'
+-5-
+  SELECT * FROM UYELER
+WHERE TELEFON LIKE '%6%' AND  = 'Kayseri'
+-6-
+  SELECT * FROM EMANETWHERE TESLIM_TARIHI < DATEADD(month, 1, GETDATE())
+-7-
+  SELECT CONCAT(LEFT(UYE_ADI, 1), LEFT(UYE_SOYADI, 5)) AS 'Ad Soyad'
+FROM UYELER
+WHERE LEN(UYE_SOYADI) > 5
+ORDER BY 'Ad Soyad' ASC
+-8-
+  SELECT SEHIR FROM UYELER
+  ORDER BY SEHIR ASC
+-9-
+  SELECT COUNT(*)FROM EMANET
+WHERE YEAR(EMANET_TARIHI) = 2020
+-10-
+  SELECT * FROM EMANET
+WHERE KUTUPHANE = 'Kayseri Belediyesi Merkez Kütüphanesi' AND DATEDIFF(month, EMANET_TARIHI, TESLIM_TARIHI) > 6
+-11-
+  SELECT COUNT(*) FROM uyeler WHERE SEHIR = 'Eskişehir';
+-12-
+  SELECT YAZAR_ADI, YAZAR_SOYADI FROM YAZARLAR
+WHERE DATEDIFF(year, YAYIN_TARIHI, GETDATE()) > 3
+-13-
+  SELECT ISBN, MAX(EMANET_TARIHI) AS EnUzunSure FROM EMANET
+GROUP BY ISBN;
+SELECT ISBN, MIN(EMANET_TARIHI) AS EnKısaSure FROM EMANET
+GROUP BY ISBN;
+-14-
+  SELECT UYE_ADI, UYE_SOYADI FROM EMANET
+INNER JOIN UYELER ON EMANET.UYE_NO = UYE_ID)
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------  
+1. Yukarıda verilen örnek veritabanına ait ER modelinin veritabanı şemasının tablolarla (UYELER,
+ADRESLER, KUTUPHANE, Emanet, KİTAPLAR, YAZARLAR, KATEGORİLER, KITAP_KUTUPHANE,
+KITAP_KATEGORI, KITAP_YAZAR) gösterimini yapınız. (Tablo isimleri verilmiştir, her tablodaki
+primary_key(PK) ve foreign_key(FK)’ları gösteriniz.)
+2. UYELER, ADRESLER, KUTUPHANE, Emanet, KİTAPLAR, YAZARLAR, KATEGORİLER,
+KITAP_KUTUPHANE, KITAP_KATEGORI, KITAP_YAZAR tablolarına 1 kayıt ekleyiniz,
+güncelleyiniz ve siliniz.
+3. ÜYELER tablosunda kayıtların var olduğu varsayıldığında, kayıtları “UyeNo” sütununa göre
+artan sırada listelemek için gerekli SQL ifadesini yazınız.
+4. Ocak 2023 ‘ten sonra emanet alınan kitapları listelemek için gerekli SQL ifadeleri yazınız.
+5. Kayseri’de ikamet eden ve telefonu içerisinde 6 içeren üyeleri listelemek için gerekli SQL
+ifadesini yazınız.
+6. Teslim tarihi 1 ay dan az kalan kitapları listelemek için gerekli SQL ifadesini yazınız.
+7. Soyadı beş karakterden fazla olan müşterilerin ad ve soyad bilgisini adının ilk harfini ve
+soyadının ilk beş karakterini birleştirerek tek bir sütunda adına göre alfabetik sırada
+listelemek için gerekli SQL ifadesini yazınız.
+8. Üyelerin sadece “Sehir” bilgisini alfabetik olarak listelemek için gerekli SQL ifadesini yazınız.
+9. 2020 yılında yapılan emanet sayısını bulmak için gerekli SQL ifadesini yazınız.
+10. Emanet alınan kütüphanenin ismi “Kayseri Belediyesi Merkez Kütüphanesi” olan kitapların
+emanet süresi 6 aydan fazla olan alımları listelemek için gerekli SQL ifadesini yazınız.
+11. Eskişehir’de yaşayan üyelerin sayısını bulmak için gerekli SQL ifadesini yazınız.
+12. “YayınTarihi” 3 yaşından büyük olan kitapların yazar bilgisini listelemek için gerekli SQL
+ifadesini yazınız.
+13. Her bir kitabın emanet edildiği sürelerin en uzun ve en kısa olanları bulunuz.
+14. Emanet verilen kitapları, emanet alan üyelerin ad ve soyad bilgisini listelemek için gerekli SQL
+ifadesini yazınız.
+
